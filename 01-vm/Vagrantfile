@@ -1,0 +1,42 @@
+# Vagrantfile for setting up a K3s cluster with one master and two worker nodes
+
+# This Vagrantfile configures a K3s cluster with one master node and two worker nodes.
+# Each node is configured with specific resources and network settings.
+Vagrant.configure("2") do |config|
+    # Define a common base configuration for all VMs
+    config.vm.box = "bento/ubuntu-22.04"  # Ubuntu 22.04
+    # config.vm.box = "bento/alpine-3.22"  # Alpine Linux 3.22 for ARM64
+
+    # Define the master node
+    config.vm.define "k3s-master" do |master|
+      master.vm.hostname = "k3s-master"
+      master.vm.network "private_network", ip: "10.0.0.11"
+      master.vm.provider "virtualbox" do |vb|
+        vb.memory = "2048"
+        vb.cpus = 2
+      end
+      master.vm.provision "shell", path: "../02-setup/k3s-master.sh"
+    end
+  
+    # Define the first worker node
+    config.vm.define "k3s-worker1" do |worker1|
+      worker1.vm.hostname = "k3s-worker1"
+      worker1.vm.network "private_network", ip: "10.0.0.12"
+      worker1.vm.provider "virtualbox" do |vb|
+        vb.memory = "1024"
+        vb.cpus = 1
+      end
+      worker1.vm.provision "shell", path: "../02-setup/k3s-worker.sh", args: ["10.0.0.11"]
+    end
+  
+    # Define the second worker node
+    config.vm.define "k3s-worker2" do |worker2|
+      worker2.vm.hostname = "k3s-worker2"
+      worker2.vm.network "private_network", ip: "10.0.0.13"
+      worker2.vm.provider "virtualbox" do |vb|
+        vb.memory = "1024"
+        vb.cpus = 1
+      end
+      worker2.vm.provision "shell", path: "../02-setup/k3s-worker.sh", args: ["10.0.0.11"]
+    end
+  end
