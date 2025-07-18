@@ -76,9 +76,9 @@ wrk -t10 -c100 -d30s http://10.0.0.11:31084
 While the attack is running, you can monitor system resources and network traffic:
 
 ```bash
-kubectl get pods -n default | grep ebpf
+kubectl get pods -l name=ebpf-daemonset
 
-kubectl logs -n default <pod-name> -f
+kubectl logs -l name=ebpf-daemonset -f
 ```
 
 ## 🛡 eBPF Protection

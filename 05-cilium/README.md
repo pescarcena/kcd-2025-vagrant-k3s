@@ -93,9 +93,6 @@ While the DDoS test is running, you can observe the traffic in Hubble:
 # Check Cilium status
 cilium status
 
-# Check Hubble status
-cilium hubble status
-
 # View Cilium system pods
 kubectl get pods -n kube-system -l k8s-app=cilium
 

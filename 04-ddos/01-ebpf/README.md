@@ -25,7 +25,17 @@ This project showcases the power of eBPF for network security monitoring, specif
 Build the Docker image:
 
 ```bash
-docker build -t pescarcena/ebpf-trace-example .
+# Build the image
+docker build -t <username>/ebpf-trace-example .
+
+# Push the image to Docker Hub
+docker push <username>/ebpf-trace-example
+```
+
+## Deploying the DaemonSet
+
+```bash
+kubectl apply -f daemonset.yaml
 ```
 
 ## Acknowledgments
