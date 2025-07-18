@@ -35,3 +35,4 @@ id_rsa*
 # Kubernetes config files (if copied locally)
 kubeconfig
 *.kubeconfig
+kube.config

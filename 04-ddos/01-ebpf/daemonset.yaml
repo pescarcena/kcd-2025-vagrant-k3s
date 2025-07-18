@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ebpf-daemonset
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      name: ebpf-daemonset
+  template:
+    metadata:
+      labels:
+        name: ebpf-daemonset
+    spec:
+      containers:
+      - name: ebpf-daemonset
+        image: pescarcena/ebpf-trace-example
+        imagePullPolicy: IfNotPresent  # add this line
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: lib-modules
+          mountPath: /lib/modules
+        - name: usr-src
+          mountPath: /usr/src
+      volumes:
+      - name: lib-modules
+        hostPath:
+          path: /lib/modules
+      - name: usr-src
+        hostPath:
+          path: /usr/src

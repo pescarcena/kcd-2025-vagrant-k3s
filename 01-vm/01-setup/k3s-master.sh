@@ -12,3 +12,9 @@ TOKEN=$(sudo cat /var/lib/rancher/k3s/server/node-token)
 
 # Store the token for the workers to use
 echo $TOKEN > /vagrant/token
+
+# Copy the kubeconfig file directly to avoid YAML formatting issues
+sudo cp /home/vagrant/.kube/config /vagrant/kube.config
+
+# Update the server URL in the kubeconfig
+sudo sed -i 's|server: https://.*|server: https://k3s-master:6443|' /vagrant/kube.config
