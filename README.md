@@ -1,4 +1,4 @@
-# Kubernetes eBPF Monitoring and DDoS Protection Demo
+# Attack Detection and Real-Time Monitoring in Kubernetes with eBPF
 
 ## 🌟 KCD Lima 2025 Workshop Project
 
