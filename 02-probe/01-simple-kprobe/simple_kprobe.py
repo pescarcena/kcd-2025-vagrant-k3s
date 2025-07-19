@@ -9,13 +9,12 @@ BPF_PROGRAM = r"""
 struct data_t {
     u32 pid;
     char comm[TASK_COMM_LEN];
-    char fname[NAME_MAX];
 };
 
 // Declare a BPF map to hold our events
 BPF_PERF_OUTPUT(events);
 
-int hello(struct pt_regs *ctx, int dfd, const char __user *filename, int flags)
+int hello(struct pt_regs *ctx)
 {
     struct data_t data = {};
     
@@ -24,9 +23,6 @@ int hello(struct pt_regs *ctx, int dfd, const char __user *filename, int flags)
     
     // Get process name
     bpf_get_current_comm(&data.comm, sizeof(data.comm));
-    
-    // Try to get the filename (this is tricky in eBPF)
-    bpf_probe_read_user_str(&data.fname, sizeof(data.fname), (void *)filename);
     
     // Submit the event to user space
     events.perf_submit(ctx, &data, sizeof(data));
