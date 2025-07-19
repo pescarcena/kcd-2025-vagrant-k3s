@@ -1,10 +1,8 @@
 # Attack Detection and Real-Time Monitoring in Kubernetes with eBPF
 
-## 🌟 KCD Lima 2025 Workshop Project
+This repository contains a complete demonstration environment for showcasing eBPF-based monitoring and DDoS protection in Kubernetes. It was created for the Kubernetes Community Days Lima 2025 workshop.
 
-This repository contains a complete demonstration environment for showcasing eBPF-based monitoring and DDoS protection in Kubernetes. It was created for the Kubernetes Community Days (KCD) Lima 2025 workshop.
-
-## 📋 Overview
+## Overview
 
 This project demonstrates how to:
 
