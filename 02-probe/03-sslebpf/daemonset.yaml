@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ebpf-ssl-uprobe
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      name: ebpf-ssl-uprobe
+  template:
+    metadata:
+      labels:
+        name: ebpf-ssl-uprobe
+    spec:
+      containers:
+      - name: ebpf-ssl-uprobe
+        image: pescarcena/ebpf-ssl-uprobe
+        imagePullPolicy: Always  # add this line
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: lib-modules
+          mountPath: /lib/modules
+        - name: usr-src
+          mountPath: /usr/src
+        - name: libssl
+          mountPath: /usr/lib/aarch64-linux-gnu/libssl.so.3
+      volumes:
+      - name: lib-modules
+        hostPath:
+          path: /lib/modules
+      - name: usr-src
+        hostPath:
+          path: /usr/src
+      - name: libssl  
+        hostPath:
+          path: /usr/lib/aarch64-linux-gnu/libssl.so.3

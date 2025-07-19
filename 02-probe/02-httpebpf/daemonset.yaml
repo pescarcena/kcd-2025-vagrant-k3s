@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ebpf-httpebpf
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      name: ebpf-httpebpf
+  template:
+    metadata:
+      labels:
+        name: ebpf-httpebpf
+    spec:
+      containers:
+      - name: ebpf-httpebpf
+        image: pescarcena/ebpf-httpebpf
+        imagePullPolicy: IfNotPresent  # add this line
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: lib-modules
+          mountPath: /lib/modules
+        - name: usr-src
+          mountPath: /usr/src
+      volumes:
+      - name: lib-modules
+        hostPath:
+          path: /lib/modules
+      - name: usr-src
+        hostPath:
+          path: /usr/src

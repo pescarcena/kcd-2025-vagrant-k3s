@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: ebpf-simple-kprobe
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      name: ebpf-simple-kprobe
+  template:
+    metadata:
+      labels:
+        name: ebpf-simple-kprobe
+    spec:
+      # hostPID: true
+      containers:
+      - name: ebpf-simple-kprobe
+        image: pescarcena/ebpf-simple-kprobe
+        imagePullPolicy: Always  # add this line
+        securityContext:
+          privileged: true
+        volumeMounts:
+        - name: lib-modules
+          mountPath: /lib/modules
+        - name: usr-src
+          mountPath: /usr/src
+        - name: tracefs
+          mountPath: /sys/kernel/tracing
+      volumes:
+      - name: lib-modules
+        hostPath:
+          path: /lib/modules
+      - name: usr-src
+        hostPath:
+          path: /usr/src
+      - name: tracefs
+        hostPath:
+          path: /sys/kernel/tracing
